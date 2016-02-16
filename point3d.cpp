@@ -39,9 +39,9 @@ void Point3D::setZ(double value)
 
 Point3D Point3D::translate(const Point3D &normal, double d) const
 {
-    return Point3D(getX() + d*normal.getX(),
-                   getY() + d*normal.getY(),
-                   getZ() + d*normal.getZ());
+    return Point3D(getX() + d * normal.getX(),
+                   getY() + d * normal.getY(),
+                   getZ() + d * normal.getZ());
 }
 
 QDebug operator<<(QDebug dbg, const Point3D & point)
