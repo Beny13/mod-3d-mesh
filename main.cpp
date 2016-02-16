@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QString rootFile("/home/ben/3d");
 
     qDebug() << "Reading file..." << endl;
-    Surface3D original = Surface3D::loadFromFile(rootFile+"/meshes/dragon_fine.mesh");
+    Surface3D original = Surface3D::loadFromFile(rootFile+"/meshes/bunny.mesh");
     // Testing writing & reading
 
     qDebug() << "Writing file..." << endl;
@@ -28,7 +28,11 @@ int main(int argc, char *argv[])
     qDebug() << "Writing normalized..." << endl;
     norm.writeToFile(rootFile+"/rendering/normalized.mesh");
 
-    qDebug() << original.getMaxPoint() << original.getMinPoint() << endl  << norm.getMaxPoint() << norm.getMinPoint();
+    qDebug() << "max original point : " << original.getMaxPoint();
+    qDebug() << "min original point : " << original.getMinPoint();
+    qDebug() << "max normalized point : " << norm.getMaxPoint();
+    qDebug() << "min normalized point : " << norm.getMinPoint();
+    qDebug() << "average node neighbors : " << original.getAverageNeighbors();
 
     return 0;
 }

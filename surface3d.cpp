@@ -18,6 +18,15 @@ void Surface3D::setNode(int source, int neighbour1, int neighbour2)
     nodes[source].addNode(neighbour2);
 }
 
+double Surface3D::getAverageNeighbors()
+{
+    double res = 0;
+    for(int i = 0; i < nodes.size(); ++i){
+        res += nodes[i].getNodes().size();
+    }
+    return res/nodes.size();
+}
+
 void Surface3D::addTriangle(const Triangle &triangle)
 {
     int node1 = triangle.getIndex1();
@@ -165,10 +174,22 @@ Point3D Surface3D::computeTriangleNormal(int triangleIndex)
     Point3D point2 = nodes[triangle.getIndex2()].getPoint();
     Point3D point3 = nodes[triangle.getIndex3()].getPoint();
 
+    double x1 = point1.getX();
+    double y1 = point1.getY();
+    double z1 = point1.getZ();
+
+    double x2 = point2.getX();
+    double y2 = point2.getY();
+    double z2 = point2.getZ();
+
+    double x3 = point3.getX();
+    double y3 = point3.getY();
+    double z3 = point3.getZ();
+
     return Point3D(
-        (point2.getY() - point1.getY()) * (point3.getZ() - point1.getZ()) - (point2.getZ() - point1.getZ()) * (point3.getY() - point1.getY()),
-        (point2.getZ() - point1.getZ()) * (point3.getX() - point1.getX()) - (point2.getX() - point1.getX()) * (point3.getZ() - point1.getZ()),
-        (point2.getX() - point1.getX()) * (point3.getY() - point1.getY()) - (point2.getY() - point1.getY()) * (point3.getX() - point1.getX())
+        (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1),
+        (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1),
+        (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
     );
 
 }
