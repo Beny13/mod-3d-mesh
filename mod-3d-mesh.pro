@@ -18,9 +18,11 @@ TEMPLATE = app
 SOURCES += main.cpp \
     surface3d.cpp \
     triangle.cpp \
-    point3d.cpp
+    point3d.cpp \
+    node.cpp
 
 HEADERS += \
     surface3d.h \
     triangle.h \
-    point3d.h
+    point3d.h \
+    node.h

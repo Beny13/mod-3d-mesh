@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QString rootFile("/home/ben/3d");
 
     qDebug() << "Reading file..." << endl;
-    Surface3D original = Surface3D::loadFromFile(rootFile+"/meshes/bunny.mesh");
+    Surface3D original = Surface3D::loadFromFile(rootFile+"/meshes/dragon_fine.mesh");
     // Testing writing & reading
 
     qDebug() << "Writing file..." << endl;

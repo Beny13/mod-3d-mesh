@@ -5,12 +5,13 @@
 
 #include "triangle.h"
 #include "point3d.h"
+#include "node.h"
 
 class Surface3D
 {
 public:
     Surface3D();
-    void addPoint(const Point3D & point);
+    void addNode(const Node &node);
     void addTriangle(const Triangle & triangle);
     int getTrianglesCount();
     int getPointsCount();
@@ -28,11 +29,12 @@ public:
     Point3D computeNodeNormal(int nodeIndex);
     double computeDPoint();
     Surface3D getNormalizedSurface();
+    void setNode(int source, int neighbour1, int neighbour2);
 private:
     /*int nb_nodes;
     int nb_facets;*/
     QVector<Triangle> triangles;
-    QVector<Point3D> points;
+    QVector<Node> nodes;
 };
 
 #endif // SURFACE3D_H

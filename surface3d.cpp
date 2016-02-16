@@ -6,13 +6,27 @@ Surface3D::Surface3D()
 {
 }
 
-void Surface3D::addPoint(const Point3D &point)
+void Surface3D::addNode(const Node & node)
 {
-    points.push_back(point);
+    nodes.push_back(node);
+}
+
+void Surface3D::setNode(int source, int neighbour1, int neighbour2)
+{
+    nodes[source].addTriangle(triangles.size());
+    nodes[source].addNode(neighbour1);
+    nodes[source].addNode(neighbour2);
 }
 
 void Surface3D::addTriangle(const Triangle &triangle)
 {
+    int node1 = triangle.getIndex1();
+    int node2 = triangle.getIndex2();
+    int node3 = triangle.getIndex3();
+
+    setNode(node1, node2, node3);
+    setNode(node2, node1, node3);
+    setNode(node3, node1, node2);
     triangles.push_back(triangle);
 }
 
@@ -23,7 +37,7 @@ int Surface3D::getTrianglesCount()
 
 int Surface3D::getPointsCount()
 {
-    return points.size();
+    return nodes.size();
 }
 
 Surface3D Surface3D::loadFromFile(const QString &path)
@@ -50,7 +64,7 @@ Surface3D Surface3D::loadFromFile(const QString &path)
     for (int i = 0; i < verticesCount; ++i) {
         QString line = in.readLine().trimmed();
         QStringList fields = line.split(" ");
-        surface.addPoint(Point3D(fields[0].toDouble(), fields[1].toDouble(), fields[2].toDouble()));
+        surface.addNode(Node(fields[0].toDouble(), fields[1].toDouble(), fields[2].toDouble()));
     }
 
     // Triangles
@@ -86,7 +100,7 @@ void Surface3D::writeToFile(const QString &path)
             << pointsCount << endl;
 
     for (int i = 0; i < pointsCount; ++i) {
-        stream << " " << points[i].getX() << " " << points[i].getY() << " " << points[i].getZ() << " 0" << endl;
+        stream << " " << nodes[i].getPoint().getX() << " " << nodes[i].getPoint().getY() << " " << nodes[i].getPoint().getZ() << " 0" << endl;
     }
 
     // Writing triangles
@@ -105,19 +119,19 @@ void Surface3D::writeToFile(const QString &path)
 
 Point3D Surface3D::getMinPoint()
 {
-    double minX = points[0].getX();
-    double minY = points[0].getY();
-    double minZ = points[0].getZ();
+    double minX = nodes[0].getPoint().getX();
+    double minY = nodes[0].getPoint().getY();
+    double minZ = nodes[0].getPoint().getZ();
 
     for (int i = 1; i < getPointsCount(); ++i) {
-        if (minX > points[i].getX())
-            minX = points[i].getX();
+        if (minX > nodes[i].getPoint().getX())
+            minX = nodes[i].getPoint().getX();
 
-        if (minY > points[i].getY())
-            minY = points[i].getY();
+        if (minY > nodes[i].getPoint().getY())
+            minY = nodes[i].getPoint().getY();
 
-        if (minZ > points[i].getZ())
-            minZ = points[i].getZ();
+        if (minZ > nodes[i].getPoint().getZ())
+            minZ = nodes[i].getPoint().getZ();
     }
 
     return Point3D(minX, minY, minZ);
@@ -125,19 +139,19 @@ Point3D Surface3D::getMinPoint()
 
 Point3D Surface3D::getMaxPoint()
 {
-    double maxX = points[0].getX();
-    double maxY = points[0].getY();
-    double maxZ = points[0].getZ();
+    double maxX = nodes[0].getPoint().getX();
+    double maxY = nodes[0].getPoint().getY();
+    double maxZ = nodes[0].getPoint().getZ();
 
     for (int i = 1; i < getPointsCount(); ++i) {
-        if (maxX < points[i].getX())
-            maxX = points[i].getX();
+        if (maxX < nodes[i].getPoint().getX())
+            maxX = nodes[i].getPoint().getX();
 
-        if (maxY < points[i].getY())
-            maxY = points[i].getY();
+        if (maxY < nodes[i].getPoint().getY())
+            maxY = nodes[i].getPoint().getY();
 
-        if (maxZ < points[i].getZ())
-            maxZ = points[i].getZ();
+        if (maxZ < nodes[i].getPoint().getZ())
+            maxZ = nodes[i].getPoint().getZ();
     }
 
     return Point3D(maxX, maxY, maxZ);
@@ -147,9 +161,9 @@ Point3D Surface3D::computeTriangleNormal(int triangleIndex)
 {
     Triangle triangle = triangles[triangleIndex];
 
-    Point3D point1 = points[triangle.getIndex1()];
-    Point3D point2 = points[triangle.getIndex2()];
-    Point3D point3 = points[triangle.getIndex3()];
+    Point3D point1 = nodes[triangle.getIndex1()].getPoint();
+    Point3D point2 = nodes[triangle.getIndex2()].getPoint();
+    Point3D point3 = nodes[triangle.getIndex3()].getPoint();
 
     return Point3D(
         (point2.getY() - point1.getY()) * (point3.getZ() - point1.getZ()) - (point2.getZ() - point1.getZ()) * (point3.getY() - point1.getY()),
@@ -161,26 +175,22 @@ Point3D Surface3D::computeTriangleNormal(int triangleIndex)
 
 Point3D Surface3D::computeNodeNormal(int nodeIndex)
 {
-    int triangleCount = 0;
     double x = 0, y = 0, z = 0;
 
-    for (int i = 0; i < getTrianglesCount(); ++i) {
-        if (triangles[i].hasIndex(nodeIndex)) {
-            Point3D currentNormal = computeTriangleNormal(i);
-            x += currentNormal.getX();
-            y += currentNormal.getY();
-            z += currentNormal.getZ();
+    int nbTriangles = nodes[nodeIndex].getTriangles().size();
 
-            ++triangleCount;
-        }
-    }
-
-    if (triangleCount == 0) {
+    if (nbTriangles == 0) {
         return Point3D(0, 0, 0);
     }
 
+    for (int i = 0; i < nbTriangles; ++i) {
+        Point3D currentNormal = computeTriangleNormal(nodes[nodeIndex].getTriangles().at(i));
+        x += currentNormal.getX();
+        y += currentNormal.getY();
+        z += currentNormal.getZ();
+    }
 
-    Point3D point(x / triangleCount, y / triangleCount, z / triangleCount);
+    Point3D point(x / nbTriangles, y / nbTriangles, z / nbTriangles);
     double l = sqrt(point.getX() * point.getX() + point.getY() * point.getY() + point.getZ() * point.getZ());
 
     return Point3D(point.getX() / l, point.getY() / l, point.getZ() / l);
@@ -188,7 +198,7 @@ Point3D Surface3D::computeNodeNormal(int nodeIndex)
 
 double Surface3D::computeDPoint()
 {
-    return -0.01;
+    return 0.01;
 }
 
 Surface3D Surface3D::getNormalizedSurface()
@@ -198,7 +208,7 @@ Surface3D Surface3D::getNormalizedSurface()
     double dPoint = computeDPoint();
 
     for (int i = 0; i < getPointsCount(); ++i) {
-        result.addPoint(points[i].translate(computeNodeNormal(i), dPoint));
+        result.addNode(nodes[i].translate(computeNodeNormal(i), dPoint));
     }
 
     return result;
