@@ -11,13 +11,6 @@ void Surface3D::addNode(const Node & node)
     nodes.push_back(node);
 }
 
-void Surface3D::setNode(int source, int neighbour1, int neighbour2)
-{
-    nodes[source].addTriangle(triangles.size());
-    nodes[source].addNode(neighbour1);
-    nodes[source].addNode(neighbour2);
-}
-
 double Surface3D::getAverageNeighbors()
 {
     double res = 0;
@@ -25,6 +18,22 @@ double Surface3D::getAverageNeighbors()
         res += nodes[i].getNodes().size();
     }
     return res/nodes.size();
+}
+
+double Surface3D::getAverageNeighborsTriangle()
+{
+    double res = 0;
+    for(int i = 0; i < nodes.size(); ++i){
+        res += nodes[i].getTriangles().size();
+    }
+    return res/nodes.size();
+}
+
+void Surface3D::setNode(int source, int neighbour1, int neighbour2)
+{
+    nodes[source].addTriangle(triangles.size());
+    nodes[source].addNode(neighbour1);
+    nodes[source].addNode(neighbour2);
 }
 
 void Surface3D::addTriangle(const Triangle &triangle)
@@ -219,7 +228,7 @@ Point3D Surface3D::computeNodeNormal(int nodeIndex)
 
 double Surface3D::computeDPoint()
 {
-    return 0.01;
+    return 0.009;
 }
 
 Surface3D Surface3D::getNormalizedSurface()

@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     qDebug() << "max normalized point : " << norm.getMaxPoint();
     qDebug() << "min normalized point : " << norm.getMinPoint();
     qDebug() << "average node neighbors : " << original.getAverageNeighbors();
+    qDebug() << "average triangle neighbors : " << original.getAverageNeighborsTriangle();
 
     return 0;
 }

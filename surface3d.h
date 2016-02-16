@@ -31,6 +31,7 @@ public:
     Surface3D getNormalizedSurface();
     void setNode(int source, int neighbour1, int neighbour2);
     double getAverageNeighbors();
+    double getAverageNeighborsTriangle();
 private:
     /*int nb_nodes;
     int nb_facets;*/
