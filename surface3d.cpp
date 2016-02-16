@@ -175,12 +175,20 @@ Point3D Surface3D::computeNodeNormal(int nodeIndex)
         }
     }
 
-    return Point3D(x / triangleCount, y / triangleCount, z / triangleCount);
+    if (triangleCount == 0) {
+        return Point3D(0, 0, 0);
+    }
+
+
+    Point3D point(x / triangleCount, y / triangleCount, z / triangleCount);
+    double l = sqrt(point.getX() * point.getX() + point.getY() * point.getY() + point.getZ() * point.getZ());
+
+    return Point3D(point.getX() / l, point.getY() / l, point.getZ() / l);
 }
 
 double Surface3D::computeDPoint()
 {
-    return 100.;
+    return 0.01;
 }
 
 Surface3D Surface3D::getNormalizedSurface()
