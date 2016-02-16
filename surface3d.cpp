@@ -180,7 +180,7 @@ Point3D Surface3D::computeNodeNormal(int nodeIndex)
 
 double Surface3D::computeDPoint()
 {
-    return 10.;
+    return 100.;
 }
 
 Surface3D Surface3D::getNormalizedSurface()

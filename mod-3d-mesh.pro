@@ -8,7 +8,7 @@ QT       += core
 
 QT       -= gui
 
-TARGET = 3D
+TARGET = mod-3d-mesh
 CONFIG   += console
 CONFIG   -= app_bundle
 
