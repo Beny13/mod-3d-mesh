@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     qDebug() << grid.getProperty(1, 2, 3);
 
     qDebug() << "Testing sphere..." << endl;
-    Sphere3D sphere3d(Point3D(20,20,20), 15);
+    Sphere3D sphere3d(Point3D(0,0,0), 15);
 
     qDebug() << sphere3d.getRelativeDistance(Point3D(10,10,10))
              << sphere3d.getRelativeDistance(Point3D(10,0,0))
@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
              << grid.getProperty(1, 0, 0)
              << endl;
 
-    grid.writeToFile("/home/ben/3d/rendering/sphere.mesh", sphere3d);
+    grid.writeSphereToFile("/home/ben/3d/rendering/sphere.mesh");
+    grid.writePointsToFile("/home/ben/3d/rendering/sphere2.mesh", grid.getSpherePoints());
 
     return 0;
 }

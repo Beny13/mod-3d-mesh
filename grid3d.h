@@ -16,7 +16,8 @@ public:
     void setOrigin(const Point3D &value);
 
     void writeToFile(const QString & path);
-    void writeToFile(const QString & path, const Sphere3D & sphere);
+    void writeSphereToFile(const QString & path);
+    void writePointsToFile(const QString & path, const QVector<Point3D> & points);
 
     int getNx() const;
     void setNx(int value);
@@ -30,13 +31,17 @@ public:
     QVector<QVector<QVector<double> > > getProperties() const;
     void setProperties(const QVector<QVector<QVector<double> > > &value);
 
-    double getProperty(int x, int y, int z);
+    double getProperty(int x, int y, int z) const;
     void setProperty(int x, int y, int z, double value);
 
     void setPropertiesFromSphere(const Sphere3D & sphere);
 
+    QVector < Point3D > getSpherePoints() const;
+
+
 private:
-    Point3D getCoordinatesFromIndex(int x, int y, int z);
+    Point3D getCoordinatesFromIndex(int x, int y, int z) const;
+    QVector<Point3D> handleSpherePoint(const Point3D &reference, const Point3D &other, double referenceDistance, double otherDistance) const;
 
     Point3D origin;
     int nx, ny, nz;

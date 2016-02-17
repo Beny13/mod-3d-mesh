@@ -55,6 +55,13 @@ QString Point3D::format() const
     return res;
 }
 
+Point3D Point3D::getPointOnEdge(const Point3D &other, double t) const
+{
+    return Point3D((1 - t) * getX() + t * other.getX(),
+                   (1 - t) * getY() + t * other.getY(),
+                   (1 - t) * getZ() + t * other.getZ());
+}
+
 QDebug operator<<(QDebug dbg, const Point3D & point)
 {
     dbg.nospace()

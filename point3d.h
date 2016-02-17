@@ -22,6 +22,8 @@ public:
 
     QString format() const;
 
+    Point3D getPointOnEdge(const Point3D & other, double t) const;
+
 private:
     double x;
     double y;
