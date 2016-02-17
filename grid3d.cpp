@@ -44,14 +44,14 @@ void Grid3D::writeToFile(const QString &path)
 
                 if (!(x == nx - 1 || y == ny - 1 || z == nz - 1)) {
                     hexs.push_back(Hexaedra(
-                        (x + 0) + yD * (y + 0) + zD * (z + 0),
-                        (x + 1) + yD * (y + 0) + zD * (z + 0),
-                        (x + 1) + yD * (y + 1) + zD * (z + 0),
-                        (x + 0) + yD * (y + 1) + zD * (z + 0),
-                        (x + 0) + yD * (y + 0) + zD * (z + 1),
-                        (x + 1) + yD * (y + 0) + zD * (z + 1),
-                        (x + 1) + yD * (y + 1) + zD * (z + 1),
-                        (x + 0) + yD * (y + 1) + zD * (z + 1)
+                        xD * (x + 0) + yD * (y + 0) + zD * (z + 0),
+                        xD * (x + 1) + yD * (y + 0) + zD * (z + 0),
+                        xD * (x + 1) + yD * (y + 1) + zD * (z + 0),
+                        xD * (x + 0) + yD * (y + 1) + zD * (z + 0),
+                        xD * (x + 0) + yD * (y + 0) + zD * (z + 1),
+                        xD * (x + 1) + yD * (y + 0) + zD * (z + 1),
+                        xD * (x + 1) + yD * (y + 1) + zD * (z + 1),
+                        xD * (x + 0) + yD * (y + 1) + zD * (z + 1)
                     ));
                 }
             }

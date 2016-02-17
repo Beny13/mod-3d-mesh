@@ -39,8 +39,10 @@ void testSurface(){
 
 int main(int argc, char *argv[])
 {
-    Grid3D grid(0, 0, 0, 5, 5, 5);
+    qDebug() << "Creating grid..." << endl;
+    Grid3D grid(0, 0, 0, 2, 3, 4);
 
+    qDebug() << "Rendering grid..." << endl;
     grid.writeToFile("/home/ben/3d/rendering/generatedGrid.mesh");
 
     return 0;
