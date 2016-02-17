@@ -3,6 +3,7 @@
 
 #include "point3d.h"
 #include "hexaedra.h"
+#include "sphere3d.h"
 
 class Grid3D
 {
@@ -15,6 +16,7 @@ public:
     void setOrigin(const Point3D &value);
 
     void writeToFile(const QString & path);
+    void writeToFile(const QString & path, const Sphere3D & sphere);
 
     int getNx() const;
     void setNx(int value);
@@ -25,9 +27,20 @@ public:
     int getNz() const;
     void setNz(int value);
 
+    QVector<QVector<QVector<double> > > getProperties() const;
+    void setProperties(const QVector<QVector<QVector<double> > > &value);
+
+    double getProperty(int x, int y, int z);
+    void setProperty(int x, int y, int z, double value);
+
+    void setPropertiesFromSphere(const Sphere3D & sphere);
+
 private:
+    Point3D getCoordinatesFromIndex(int x, int y, int z);
+
     Point3D origin;
     int nx, ny, nz;
+    QVector < QVector < QVector < double > > > properties;
 };
 
 #endif // GRID3D_H

@@ -44,6 +44,17 @@ Point3D Point3D::translate(const Point3D &normal, double d) const
                    getZ() + d * normal.getZ());
 }
 
+QString Point3D::format() const
+{
+    QString res;
+    QTextStream stream(&res);
+    stream << " "
+           << x << " "
+           << y << " "
+           << z << " 0";
+    return res;
+}
+
 QDebug operator<<(QDebug dbg, const Point3D & point)
 {
     dbg.nospace()

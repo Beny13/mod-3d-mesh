@@ -18,6 +18,6 @@ QString Hexaedra::format() const
            << i5 + 1 << " "
            << i6 + 1 << " "
            << i7 + 1 << " "
-           << i8 + 1 << " 0";
+           << i8 + 1 << " 508";
     return res;
 }

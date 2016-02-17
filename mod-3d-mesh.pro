@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     point3d.cpp \
     node.cpp \
     grid3d.cpp \
-    hexaedra.cpp
+    hexaedra.cpp \
+    sphere3d.cpp
 
 HEADERS += \
     surface3d.h \
@@ -29,4 +30,5 @@ HEADERS += \
     point3d.h \
     node.h \
     grid3d.h \
-    hexaedra.h
+    hexaedra.h \
+    sphere3d.h

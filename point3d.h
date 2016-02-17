@@ -20,6 +20,8 @@ public:
 
     Point3D translate(const Point3D & normal, double d) const;
 
+    QString format() const;
+
 private:
     double x;
     double y;
