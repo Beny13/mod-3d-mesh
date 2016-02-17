@@ -3,9 +3,9 @@
 #include "point3d.h"
 #include "surface3d.h"
 #include "triangle.h"
+#include "grid3d.h"
 
-int main(int argc, char *argv[])
-{
+void testSurface(){
     QString rootFile("/home/ben/3d");
 
     qDebug() << "Reading file..." << endl;
@@ -34,6 +34,14 @@ int main(int argc, char *argv[])
     qDebug() << "min normalized point : " << norm.getMinPoint();
     qDebug() << "average node neighbors : " << original.getAverageNeighbors();
     qDebug() << "average triangle neighbors : " << original.getAverageNeighborsTriangle();
+
+}
+
+int main(int argc, char *argv[])
+{
+    Grid3D grid(0, 0, 0, 5, 5, 5);
+
+    grid.writeToFile("/home/ben/3d/rendering/generatedGrid.mesh");
 
     return 0;
 }
