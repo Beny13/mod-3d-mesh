@@ -7,6 +7,7 @@
 #include "sphere3d.h"
 #include "doublesphere.h"
 #include "meshfilemanager.h"
+#include "plane.h"
 
 void testSurface() {
     // Testing writing & reading
@@ -105,8 +106,24 @@ void testDoubleSphere()
     qDebug() << "Done!";
 }
 
+void testPlane()
+{
+    qDebug() << "Creating grid...";
+    Grid3D grid(0, 0, 0, 50, 50, 50);
+
+    qDebug() << "Creating plane...";
+    Plane plane(Point3D(0,0,0));
+
+    qDebug() << "Setting shape into the grid...";
+    grid.setShape(plane);
+
+    qDebug() << "Writing to file...";
+    MeshFileManager::writeShapePoints(grid, "/rendering/plane.mesh");
+
+    qDebug() << "Done!";
+}
+
 int main(int , char *[])
 {
-    testDoubleSphere();
     return 0;
 }

@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     sphere3d.cpp \
     implicitobject.cpp \
     doublesphere.cpp \
-    meshfilemanager.cpp
+    meshfilemanager.cpp \
+    plane.cpp
 
 HEADERS += \
     surface3d.h \
@@ -37,4 +38,5 @@ HEADERS += \
     sphere3d.h \
     implicitobject.h \
     doublesphere.h \
-    meshfilemanager.h
+    meshfilemanager.h \
+    plane.h
