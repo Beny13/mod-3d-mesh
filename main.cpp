@@ -8,11 +8,12 @@
 #include "doublesphere.h"
 #include "meshfilemanager.h"
 #include "plane.h"
+#include "multisphere.h"
 
 void testSurface() {
     // Testing writing & reading
     qDebug() << "Reading file..." << endl;
-    Surface3D original = MeshFileManager::readSurface("/meshes/bunny.mesh");
+    Surface3D original = MeshFileManager::readSurface("/meshes/dragon_fine.mesh");
     qDebug() << "Writing file..." << endl;
     MeshFileManager::writeSurface(original, "/rendering/render.mesh");
     qDebug() << "Loading written..." << endl;
@@ -112,7 +113,7 @@ void testPlane()
     Grid3D grid(0, 0, 0, 50, 50, 50);
 
     qDebug() << "Creating plane...";
-    Plane plane(Point3D(0,0,0));
+    Plane plane(Point3D(0,0,1));
 
     qDebug() << "Setting shape into the grid...";
     grid.setShape(plane);
@@ -123,12 +124,32 @@ void testPlane()
     qDebug() << "Done!";
 }
 
+void testMultisphere()
+{
+    qDebug() << "Test multisphere" << endl;
+
+    qDebug() << "Creating grid...";
+
+    Grid3D grid(0, 0, 0, 100, 100, 100);
+
+    qDebug() << "Creating Multisphere";
+
+    MultiSphere multisphere(5, 8, 10, 10, Point3D(20, 20, 20));
+
+    qDebug() << "Setting shape into the grid...";
+
+    grid.setShape(multisphere);
+
+    MeshFileManager::writeShapePoints(grid, "/rendering/multisphere.mesh");
+}
+
 int main(int , char *[])
 {
     testSurface();
     testGrid();
     testSphere();
     testDoubleSphere();
+    testMultisphere();
     testPlane();
     return 0;
 }

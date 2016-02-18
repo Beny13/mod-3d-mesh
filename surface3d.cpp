@@ -133,7 +133,6 @@ Point3D Surface3D::computeTriangleNormal(int triangleIndex)
         (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1),
         (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
     );
-
 }
 
 Point3D Surface3D::computeNodeNormal(int nodeIndex)
@@ -161,7 +160,7 @@ Point3D Surface3D::computeNodeNormal(int nodeIndex)
 
 double Surface3D::computeDPoint()
 {
-    return 0.01;
+    return 0.5;
 }
 
 Surface3D Surface3D::getNormalizedSurface()

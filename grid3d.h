@@ -15,10 +15,6 @@ public:
     Point3D getOrigin() const;
     void setOrigin(const Point3D &value);
 
-    void writeToFile(const QString & path);
-    void writeSphereToFile(const QString & path);
-    void writePointsToFile(const QString & path);
-
     int getNx() const;
     void setNx(int value);
 
