@@ -30,6 +30,8 @@ void testSurface() {
     qDebug() << "average node neighbors : " << original.getAverageNeighbors();
     qDebug() << "average triangle neighbors : " << original.getAverageNeighborsTriangle();
 
+    qDebug() << "Done!";
+
 }
 
 void testGrid()
@@ -37,10 +39,11 @@ void testGrid()
     qDebug() << "Creating grid..." << endl;
     Grid3D grid(0, 0, 0, 50, 50, 50);
 
-    qDebug() << "Rendering grid..." << endl;
-    grid.writeToFile("/home/ben/3d/rendering/generatedGrid.mesh");
+    qDebug() << "Writing grid to file...";
+    MeshFileManager::writeShape(grid, "/rendering/generatedGrid.mesh");
 
-    qDebug() << grid.getProperties().size()
+    qDebug() << "Testing getProperties..."
+             << grid.getProperties().size()
              << grid.getProperties()[0].size()
              << grid.getProperties()[0][0].size()
              << endl;
@@ -48,42 +51,62 @@ void testGrid()
     qDebug() << grid.getProperty(1, 2, 3);
     grid.setProperty(1, 2, 3, 10.5);
     qDebug() << grid.getProperty(1, 2, 3);
+
+    qDebug() << "Done!";
 }
 
 void testSphere()
 {
+    qDebug() << "Creating grid...";
     Grid3D grid(0, 0, 0, 50, 50, 50);
 
-    qDebug() << "Testing sphere..." << endl;
+    qDebug() << "Creating Sphere3D...";
     Sphere3D sphere3d(Point3D(25,25,25), 10);
 
-    qDebug() << sphere3d.getRelativeDistance(Point3D(10,10,10))
+    qDebug() << "Testing getRelativeDistance..."
+             << sphere3d.getRelativeDistance(Point3D(10,10,10))
              << sphere3d.getRelativeDistance(Point3D(10,0,0))
              << endl;
 
-    qDebug() << "Testing sphere with grid..." << endl;
-
+    qDebug() << "Setting shape into the grid...";
     grid.setShape(sphere3d);
-    qDebug() << grid.getProperty(9, 0, 0)
+
+    qDebug() << "Testing getProperty..."
+             << grid.getProperty(9, 0, 0)
              << grid.getProperty(0, 9, 0)
              << grid.getProperty(0, 0, 9)
              << grid.getProperty(9, 9, 9)
              << grid.getProperty(1, 0, 0)
              << endl;
 
+    qDebug() << "Writing shape to file...";
     MeshFileManager::writeShape(grid, "/rendering/sphere.mesh");
+
+    qDebug() << "Writing points to file...";
     MeshFileManager::writeShapePoints(grid, "/rendering/sphere2.mesh");
+
+    qDebug() << "Done!";
 }
 
-int main(int argc, char *argv[])
+void testDoubleSphere()
 {
+    qDebug() << "Creating grid...";
     Grid3D grid(0, 0, 0, 50, 50, 50);
 
+    qDebug() << "Creating double sphere...";
     DoubleSphere doubleSphere(Sphere3D(Point3D(25,25,25), 10), Sphere3D(Point3D(25,25,35), 10));
 
+    qDebug() << "Setting shape into the grid...";
     grid.setShape(doubleSphere);
 
+    qDebug() << "Writing to file...";
     MeshFileManager::writeShapePoints(grid, "/rendering/doublesphere.mesh");
 
+    qDebug() << "Done!";
+}
+
+int main(int , char *[])
+{
+    testDoubleSphere();
     return 0;
 }
