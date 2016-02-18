@@ -32,8 +32,6 @@ public:
 
     Triangle getTriangle(int i) const;
 private:
-    /*int nb_nodes;
-    int nb_facets;*/
     QVector<Triangle> triangles;
     QVector<Node> nodes;
 };

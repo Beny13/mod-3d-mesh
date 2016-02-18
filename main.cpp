@@ -41,7 +41,7 @@ void testGrid()
     Grid3D grid(0, 0, 0, 50, 50, 50);
 
     qDebug() << "Writing grid to file...";
-    MeshFileManager::writeShape(grid, "/rendering/generatedGrid.mesh");
+    MeshFileManager::writeGeometry(grid, "/rendering/generatedGrid.mesh");
 
     qDebug() << "Testing getProperties..."
              << grid.getProperties().size()
@@ -125,5 +125,10 @@ void testPlane()
 
 int main(int , char *[])
 {
+    testSurface();
+    testGrid();
+    testSphere();
+    testDoubleSphere();
+    testPlane();
     return 0;
 }
