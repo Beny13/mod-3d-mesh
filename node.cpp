@@ -22,7 +22,8 @@ void Node::addNode(int node)
         nodes.push_back(node);
     }
 }
-Point3D Node::getPoint() const
+
+const Point3D &Node::getPoint() const
 {
     return point;
 }

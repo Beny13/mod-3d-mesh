@@ -42,5 +42,15 @@ bool Triangle::hasIndex(int index)
     return index == index1 || index == index2 || index == index3;
 }
 
+QString Triangle::format() const
+{
+    QString res;
+    QTextStream stream(&res);
+    stream << index1 + 1 << " "
+           << index2 + 1 << " "
+           << index3 + 1 << " 508";
+    return res;
+}
+
 
 

@@ -22,7 +22,10 @@ SOURCES += main.cpp \
     node.cpp \
     grid3d.cpp \
     hexaedra.cpp \
-    sphere3d.cpp
+    sphere3d.cpp \
+    implicitobject.cpp \
+    doublesphere.cpp \
+    meshfilemanager.cpp
 
 HEADERS += \
     surface3d.h \
@@ -31,4 +34,7 @@ HEADERS += \
     node.h \
     grid3d.h \
     hexaedra.h \
-    sphere3d.h
+    sphere3d.h \
+    implicitobject.h \
+    doublesphere.h \
+    meshfilemanager.h

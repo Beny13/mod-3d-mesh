@@ -29,6 +29,11 @@ double Surface3D::getAverageNeighborsTriangle()
     return res/nodes.size();
 }
 
+Triangle Surface3D::getTriangle(int i) const
+{
+    return triangles[i];
+}
+
 void Surface3D::setNode(int source, int neighbour1, int neighbour2)
 {
     nodes[source].addTriangle(triangles.size());
@@ -48,91 +53,19 @@ void Surface3D::addTriangle(const Triangle &triangle)
     triangles.push_back(triangle);
 }
 
-int Surface3D::getTrianglesCount()
+int Surface3D::getTrianglesCount() const
 {
     return triangles.size();
 }
 
-int Surface3D::getPointsCount()
+int Surface3D::getPointsCount() const
 {
     return nodes.size();
 }
 
-Surface3D Surface3D::loadFromFile(const QString &path)
+const Point3D &Surface3D::getPoint(int i) const
 {
-    // Opening the file
-    QFile file(path);
-    if(!file.open(QIODevice::ReadOnly)) {
-        return Surface3D();
-    }
-
-    QTextStream in(&file);
-
-    // Skipping useless lines
-    in.readLine();
-    in.readLine();
-    in.readLine();
-    in.readLine();
-
-    // The full surface
-    Surface3D surface;
-
-    // Vertices
-    int verticesCount = in.readLine().toInt();
-    for (int i = 0; i < verticesCount; ++i) {
-        QString line = in.readLine().trimmed();
-        QStringList fields = line.split(" ");
-        surface.addNode(Node(fields[0].toDouble(), fields[1].toDouble(), fields[2].toDouble()));
-    }
-
-    // Triangles
-    in.readLine(); // Skipping "Triangles"
-    int trianglesCount = in.readLine().toInt();
-    for (int i = 0; i < trianglesCount; ++i) {
-        QString line = in.readLine().trimmed();
-        QStringList fields = line.split(" ");
-        surface.addTriangle(Triangle(fields[0].toInt() - 1, fields[1].toInt() - 1, fields[2].toInt() - 1));
-    }
-
-    file.close();
-
-    return surface;
-}
-
-void Surface3D::writeToFile(const QString &path)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly)) {
-        return;
-    }
-
-    QTextStream stream(&file);
-    stream  << "MeshVersionFormatted 1" << endl
-            << "Dimension" << endl
-            << "3" << endl;
-
-    // Writing vertices
-    int pointsCount = getPointsCount();
-
-    stream  << "Vertices" << endl
-            << pointsCount << endl;
-
-    for (int i = 0; i < pointsCount; ++i) {
-        stream << " " << nodes[i].getPoint().getX() << " " << nodes[i].getPoint().getY() << " " << nodes[i].getPoint().getZ() << " 0" << endl;
-    }
-
-    // Writing triangles
-    int triangleCount = getTrianglesCount();
-
-    stream  << "Triangles" << endl
-            << triangleCount << endl;
-
-    for (int i = 0; i < triangleCount; ++i) {
-        stream << " " << triangles[i].getIndex1() + 1 << " " << triangles[i].getIndex2() + 1 << " " << triangles[i].getIndex3() + 1 << " 508" << endl;
-    }
-
-    stream << "End" << endl;
-
+    return nodes[i].getPoint();
 }
 
 Point3D Surface3D::getMinPoint()

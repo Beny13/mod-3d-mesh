@@ -73,60 +73,6 @@ void Grid3D::writeToFile(const QString &path)
     stream << "End" << endl;
 }
 
-void Grid3D::writeSphereToFile(const QString &path)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly)) {
-        return;
-    }
-
-    QTextStream stream(&file);
-    stream  << "MeshVersionFormatted 1" << endl
-            << "Dimension" << endl
-            << "3" << endl;
-
-    stream  << "Vertices" << endl
-            <<  nx * ny * nz << endl;
-
-    for (int z = 0; z < nz; ++z) {
-        for (int y = 0; y < ny; ++y) {
-            for (int x = 0; x < nx; ++x) {
-                Point3D currentPoint(origin.getX() + x, origin.getY() + y, origin.getZ() + z);
-                if (getProperty(currentPoint.getX(), currentPoint.getY(), currentPoint.getZ()) < 0) {
-                    stream << currentPoint.format()
-                           << endl;
-                }
-            }
-        }
-    }
-
-    stream << "End" << endl;
-}
-
-void Grid3D::writePointsToFile(const QString &path, const QVector<Point3D> &points)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly)) {
-        return;
-    }
-
-    QTextStream stream(&file);
-    stream  << "MeshVersionFormatted 1" << endl
-            << "Dimension" << endl
-            << "3" << endl;
-
-    stream  << "Vertices" << endl
-            <<  points.size() << endl;
-
-    for (int i = 0; i < points.size(); ++i) {
-        stream << points[i].format()
-               << endl;
-    }
-
-
-    stream << "End" << endl;
-}
-
 int Grid3D::getNx() const
 {
     return nx;
@@ -176,7 +122,7 @@ void Grid3D::setProperty(int x, int y, int z, double value)
     properties[z][y][x] = value;
 }
 
-void Grid3D::setPropertiesFromSphere(const Sphere3D &sphere)
+void Grid3D::setShape(const ImplicitObject &object)
 {
     for (int z = 0; z < nz; ++z) {
         for (int y = 0; y < ny; ++y) {
@@ -184,15 +130,15 @@ void Grid3D::setPropertiesFromSphere(const Sphere3D &sphere)
                 setProperty(x,
                             y,
                             z,
-                            sphere.getRelativeDistance(Point3D(x,y,z)));
+                            object.getRelativeDistance(Point3D(x,y,z)));
             }
         }
     }
 }
 
-QVector<Point3D> Grid3D::getSpherePoints() const
+QVector<Point3D> Grid3D::getShapePoints() const
 {
-    QVector<Point3D> spherePoints;
+    QVector<Point3D> shapePoints;
     for (int z = 0; z < nz - 1; ++z) {
         for (int y = 0; y < ny - 1; ++y) {
             for (int x = 0; x < nx - 1; ++x) {
@@ -201,17 +147,17 @@ QVector<Point3D> Grid3D::getSpherePoints() const
                 Point3D point2 = getCoordinatesFromIndex(x, y + 1, z);
                 Point3D point3 = getCoordinatesFromIndex(x, y, z + 1);
 
-                spherePoints += handleSpherePoint(reference, point1, getProperty(x,y,z), getProperty(x+1,y,z));
-                spherePoints += handleSpherePoint(reference, point2, getProperty(x,y,z), getProperty(x,y+1,z));
-                spherePoints += handleSpherePoint(reference, point3, getProperty(x,y,z), getProperty(x,y,z+1));
+                shapePoints += handleShapePoint(reference, point1, getProperty(x,y,z), getProperty(x+1,y,z));
+                shapePoints += handleShapePoint(reference, point2, getProperty(x,y,z), getProperty(x,y+1,z));
+                shapePoints += handleShapePoint(reference, point3, getProperty(x,y,z), getProperty(x,y,z+1));
             }
         }
     }
 
-    return spherePoints;
+    return shapePoints;
 }
 
-QVector<Point3D> Grid3D::handleSpherePoint(const Point3D &reference, const Point3D &other, double referenceDistance, double otherDistance) const
+QVector<Point3D> Grid3D::handleShapePoint(const Point3D &reference, const Point3D &other, double referenceDistance, double otherDistance) const
 {
     QVector<Point3D> newPoint;
 

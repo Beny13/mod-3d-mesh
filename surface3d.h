@@ -13,12 +13,9 @@ public:
     Surface3D();
     void addNode(const Node &node);
     void addTriangle(const Triangle & triangle);
-    int getTrianglesCount();
-    int getPointsCount();
-
-    // File handling
-    static Surface3D loadFromFile(const QString & path);
-    void writeToFile(const QString & path);
+    int getTrianglesCount() const;
+    int getPointsCount() const;
+    const Point3D & getPoint(int i) const;
 
     // Min/Max
     Point3D getMinPoint();
@@ -32,6 +29,8 @@ public:
     void setNode(int source, int neighbour1, int neighbour2);
     double getAverageNeighbors();
     double getAverageNeighborsTriangle();
+
+    Triangle getTriangle(int i) const;
 private:
     /*int nb_nodes;
     int nb_facets;*/

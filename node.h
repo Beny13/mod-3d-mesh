@@ -13,8 +13,7 @@ public:
     void addTriangle(int triangle);
     void addNode(int node);
 
-
-    Point3D getPoint() const;
+    const Point3D &getPoint() const;
     void setPoint(const Point3D &value);
 
     QVector<int> getTriangles() const;

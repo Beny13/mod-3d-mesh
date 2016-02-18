@@ -19,6 +19,8 @@ public:
 
     bool hasIndex(int index);
 
+    QString format() const;
+
 private:
     int index1;
     int index2;
